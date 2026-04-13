@@ -52,24 +52,11 @@ CORS(app)
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+    return "App running ✅"   # test simple first
 
 @app.route("/submit", methods=["POST"])
 def submit():
-    try:
-        data = request.get_json()
-
-        if not data:
-            return jsonify({"status": "error", "message": "No data"}), 400
-
-        print("Received:", data)
-
-        return jsonify({"status": "success"})
-
-    except Exception as e:
-        print("ERROR:", e)
-        return jsonify({"status": "error", "message": str(e)}), 500
-
+    return jsonify({"status": "ok"})
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
