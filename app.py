@@ -52,13 +52,23 @@ CORS(app)
 
 @app.route("/")
 def home():
-    return render_template("index.html")  # 🔥 IMPORTANT
+    return render_template("index.html")
 
 @app.route("/submit", methods=["POST"])
 def submit():
-    data = request.get_json()
-    print("Received:", data)
-    return jsonify({"status": "success"})
+    try:
+        data = request.get_json()
+
+        if not data:
+            return jsonify({"status": "error", "message": "No data"}), 400
+
+        print("Received:", data)
+
+        return jsonify({"status": "success"})
+
+    except Exception as e:
+        print("ERROR:", e)
+        return jsonify({"status": "error", "message": str(e)}), 500
 
 
 if __name__ == "__main__":
