@@ -50,16 +50,23 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+
+app = Flask(__name__)
+CORS(app)
+
+@app.route("/")
+def home():
+    return "Server is running ✅"
+
 @app.route('/submit', methods=['POST'])
 def submit():
     try:
         data = request.get_json()
 
         if not data:
-            return jsonify({"status": "error", "message": "No data received"}), 400
-
-        # 🔥 Temporary: just print data instead of saving
-        print("Received data:", data)
+            return jsonify({"status": "error"}), 400
 
         return jsonify({"status": "success"})
 
