@@ -44,13 +44,7 @@
 
 # if __name__ == "__main__":
 #     app.run(host="0.0.0.0", port=10000)
-from flask import Flask, request, jsonify
-from flask_cors import CORS
-
-app = Flask(__name__)
-CORS(app)
-
-from flask import Flask, request, jsonify
+from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -58,20 +52,13 @@ CORS(app)
 
 @app.route("/")
 def home():
-    return "Server is running ✅"
+    return render_template("index.html")  # 🔥 IMPORTANT
 
-@app.route('/submit', methods=['POST'])
+@app.route("/submit", methods=["POST"])
 def submit():
-    try:
-        data = request.get_json()
-
-        if not data:
-            return jsonify({"status": "error"}), 400
-
-        return jsonify({"status": "success"})
-
-    except Exception as e:
-        return jsonify({"status": "error", "message": str(e)}), 500
+    data = request.get_json()
+    print("Received:", data)
+    return jsonify({"status": "success"})
 
 
 if __name__ == "__main__":
